@@ -1,6 +1,6 @@
 # React Spotify Player
 
-![How to Build A Spotify Player with React in 15 Minutes](https://user-images.githubusercontent.com/4650739/54856371-36ea3680-4cc8-11e9-9aeb-1be2a4d95f39.png)
+![How to Build A Spotify Application With React
 
 Have you ever wanted to add Spotify integration into your app or website? Adding personalized music to any application is super easy with the Spotify Developer API.
 
@@ -12,9 +12,7 @@ In this post, I am going to walk through how to access the Spotify Developer API
 - Authenticate a user and get authorization to access user data
 - Retrieve the data from a Web API endpoint
 
-You can read my in depth blog post that accompanies this code, here: [https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6](https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6)
 
-![Spotify player](https://user-images.githubusercontent.com/4650739/54856251-8aa85000-4cc7-11e9-9bb1-e27812ac2e00.gif)
 
 ## Quickstart
 
@@ -22,13 +20,13 @@ You can read my in depth blog post that accompanies this code, here: [https://me
 
 Go to the [Dashboard](https://developer.spotify.com/dashboard) page at the Spotify Developer website, and click on ‘My New App.” Be sure to write down the Client ID from your application.
 
-You can read my in depth blog post that accompanies this code, here: [https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6](https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6)
+
 
 ### 2. Clone example repository
 
 ```sh
-git clone https://github.com/JoeKarlsson/react-spotify-player.git
-cd react-spotify-player
+git clone https://github.com/atinr4/musify-react.git
+cd musify-react
 ```
 
 ### 3. Update React Spotify Player Config
@@ -81,8 +79,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Contributing
 
-Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`. Checkout our [contribution README](https://github.com/JoeKarlsson/movie-script-scraper/blob/master/CONTRIBUTING.md) for more info.
-
+Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`. 
 ### Contributing TLDR;
 
 1. Fork it!
@@ -93,18 +90,7 @@ Don't hesitate to create a pull request. Every contribution is appreciated. In d
 
 ### Maintainers
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150 height="150"
-        src="https://avatars.githubusercontent.com/JoeKarlsson?v=3">
-        <br />
-        <a href="https://github.com/JoeKarlsson">Joe Karlsson</a>
-      </td>
-    <tr>
-  <tbody>
-</table>
+Atin Roy
 
 ### License
 
@@ -112,7 +98,6 @@ Don't hesitate to create a pull request. Every contribution is appreciated. In d
 
 ### Follow Joe Karlsson on Social
 
-- Twitter - [@JoeKarlsson1](https://twitter.com/JoeKarlsson1)
-- GitHub - [@JoeKarlsson](https://github.com/joekarlsson/)
-- LinkedIn - [/in/joekarlsson](https://www.linkedin.com/in/joekarlsson/)
-- Website - [joekarlsson.com](https://www.joekarlsson.com/)
+
+- GitHub - [@atinr4](https://github.com/atinr4/)
+- LinkedIn - [/in/atinr4](https://www.linkedin.com/in/atinr4/)
