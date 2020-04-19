@@ -3,13 +3,12 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #fff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,34 +41,27 @@ html, body {
   height: 100%;
 }
 
-body {
-  background-color: #333;
-  color: #eee;
-  font-family: Helvetica, Arial;
-  font-size: 3vmin;
-}
-
 .hidden {
   display: none;
 }
 
 /** Buttons **/
 
-.btn {
-  background-color: transparent;
-  border-radius: 2em;
-  border: 0.2em solid #1ecd97;
-  color: #1ecd97;
+.spotify-btn {
+  background-color: #1dd65f;
+  border-radius: 2vmin;
+  color: #fff;
   cursor: pointer;
-  font-size: 3vmin;
+  font-size: 1.5vmin;
   padding: 0.7em 1.5em;
-  text-transform: uppercase;
+  font-weight: 600;
   transition: all 0.25s ease;
+  text-decoration: none !important;
 }
 
-.btn:hover {
-  background: #1ecd97;
-  color: #333;
+.spotify-btn:hover {
+  background: #189e76;
+  color: #fff;
 }
 
 .btn--login {
@@ -110,3 +102,185 @@ body {
 .main-container {
   flex: 1;
 }
+
+.no-margin {
+  margin:0px;
+}
+
+.no-margin svg{
+  margin-right: 2px;
+}
+
+.flex-column a{
+  color: #000;
+  font-size: 18px;
+  transition: 0.4s;
+}
+
+.flex-column a:hover{
+    color: white;
+    background-color: #f99c1c;
+    border-radius: 2em;
+    
+}
+
+.category-card .category-button {
+    color: #000;
+    width: 87%;
+    transition: 0.4s;
+    padding: 10px;
+    display: block;
+    position: absolute;
+    top: 111px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+.category-card .category-button:hover {
+  color: #fff;
+  background-color: #f99c1c;
+  border-radius: 2em;
+}
+
+.category-card .card-title {
+    text-align: center;
+    height: 122px;
+    padding-top: 40px;
+}
+
+.navbar-brand
+{
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    margin: auto;
+    padding:0px;
+}
+
+.custom-loader {
+  left: 0;
+  top: 0;
+  text-align: center;
+  margin: auto;
+}
+
+
+.snip1584 {
+  font-family: 'Monospace', sans-serif;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: 10px;
+  min-width: 230px;
+  max-width: 250px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: left;
+}
+.snip1584 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+.snip1584:before {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  top: 100%;
+  content: '';
+  background-color: rgba(51, 51, 51, 0.9);
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  -webkit-transition-delay: 0.25s;
+  transition-delay: 0.25s;
+}
+.snip1584 img {
+  vertical-align: top;
+  max-width: 100%;
+  backface-visibility: hidden;
+}
+.snip1584 figcaption {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.snip1584 h3,
+.snip1584 h5 {
+  margin: 0;
+  opacity: 0;
+  letter-spacing: 1px;
+}
+.snip1584 h3 {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+  text-transform: uppercase;
+  font-weight: 400;
+  -webkit-transition-delay: 0.05s;
+  transition-delay: 0.05s;
+  margin-bottom: 5px;
+}
+.snip1584 h5 {
+  font-weight: normal;
+  background-color: #ae895d;
+  padding: 3px 10px;
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.snip1584 a {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.snip1584:hover:before,
+.snip1584.hover:before {
+  top: 10px;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.snip1584:hover h3,
+.snip1584.hover h3,
+.snip1584:hover h5,
+.snip1584.hover h5 {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  opacity: 1;
+}
+.snip1584:hover h3,
+.snip1584.hover h3 {
+  -webkit-transition-delay: 0.3s;
+  transition-delay: 0.3s;
+}
+.snip1584:hover h5,
+.snip1584.hover h5 {
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+.slick-prev:before, .slick-next:before{
+  color: #000 !important;
+}
+
+.slick-list {
+  height: 180px !important;
+  margin-top: 5px !important;
+}
+
+

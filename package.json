@@ -1,15 +1,26 @@
 {
-  "name": "react-instafeed",
+  "name": "musify",
   "description": "Realtime Spotify Player built with React.",
   "version": "0.1.0",
-  "author": "Joe Karlsson<joekarlsson1@gmail.com>",
+  "author": "Atin Roy",
   "license": "MIT",
   "private": true,
+  "homepage": "http://musify.spothop.in",
   "dependencies": {
+    "bootstrap": "^4.4.1",
+    "emotion": "^10.0.27",
+    "holderjs": "^2.9.7",
     "jquery": "^3.4.1",
     "react": "^16.8.4",
+    "react-bootstrap": "^1.0.0",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "react-icons": "^3.9.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "2.1.8",
+    "react-slick": "^0.25.2",
+    "react-spinners": "^0.8.1",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",
