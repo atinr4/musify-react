@@ -16,7 +16,7 @@ class MenuComponent extends Component {
 
 
     logOut() {
-        localStorage.clear("_token");
+        localStorage.removeItem("_token");
         this.setState({ navigate: true });
     };
 

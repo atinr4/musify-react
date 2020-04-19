@@ -12,6 +12,7 @@
     "holderjs": "^2.9.7",
     "jquery": "^3.4.1",
     "react": "^16.8.4",
+    "react-axios": "^2.0.3",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.8.4",
     "react-icons": "^3.9.0",

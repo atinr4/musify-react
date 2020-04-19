@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, ListGroup, Col, Row, Container, ProgressBar, Card } from 'react-bootstrap';
+import { Image, ListGroup, Col, Row, Container, ProgressBar, Card, Modal, Button } from 'react-bootstrap';
 import { FaHeart, } from "react-icons/fa";
 import Slider from "react-slick";
 import hash from "../hash";
@@ -12,6 +12,7 @@ import { PropagateLoader, ScaleLoader } from "react-spinners";
 import HomeLeaderBoard from "./HomeLeaderBoard";
 import NavComponent from "./NavComponent";
 import MenuComponent from "./MenuComponent";
+import FirstLoginModal from "./FirstLoginModal";
 
 const override = css`
   display: block;
@@ -25,9 +26,13 @@ class Dashboard extends Component {
       user_data: [],
       progression: 10,
       categories: [],
-      loading: true
+      loading: true,
+      viewPopup: true
     };
+
   }
+
+
 
   componentDidMount() {
     let _token = hash.access_token;
@@ -37,6 +42,17 @@ class Dashboard extends Component {
 
     this.getCurrentUser(localStorage.getItem('_token'));
     this.getCategories(localStorage.getItem('_token'));
+    let visited = localStorage["alreadyVisited"];
+
+    if (visited) {
+      this.setState({ viewPopup: false })
+      //do not view Popup
+    } else {
+      //this is the first time
+      localStorage["alreadyVisited"] = true;
+      this.setState({ viewPopup: true });
+    }
+
   }
 
   getCurrentUser(token) {
@@ -51,7 +67,6 @@ class Dashboard extends Component {
           this.setState({ progression: progess })
           this.setState({ loading: false })
         } else {
-          console.log('here');
           localStorage.removeItem('_token')
           localStorage.setItem('_token', undefined);
         }
@@ -69,12 +84,22 @@ class Dashboard extends Component {
       .catch(console.log)
   }
 
+  updateUser(data) {
+    this.setState({
+      user_data: data.user_data
+    })
+  }
 
   render() {
     return (
 
       <Container fluid style={{ padding: 0 }}>
         <NavComponent />
+
+        {!this.state.loading && this.state.viewPopup && (
+          <FirstLoginModal user={this.state.user_data} updateUser={this.updateUser.bind(this)} />
+        )}
+
         <Container fluid>
           <Row className="justify-content-md-center">
             <Col xs lg="2">
