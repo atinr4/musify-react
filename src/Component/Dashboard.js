@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom'
 import { Image, ListGroup, Col, Row, Container, ProgressBar, Card, Modal, Button } from 'react-bootstrap';
 import { FaHeart, } from "react-icons/fa";
 import Slider from "react-slick";
@@ -8,11 +9,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { css } from "@emotion/core";
 import { PropagateLoader, ScaleLoader } from "react-spinners";
+import logo from "../logo.png";
 
 import HomeLeaderBoard from "./HomeLeaderBoard";
 import NavComponent from "./NavComponent";
 import MenuComponent from "./MenuComponent";
 import FirstLoginModal from "./FirstLoginModal";
+import ProgressionComponent from "./ProgressionComponent";
+
+import CircleAudioPlayer from "../Player/CircleAudioPlayer";
 
 const override = css`
   display: block;
@@ -27,8 +32,11 @@ class Dashboard extends Component {
       progression: 10,
       categories: [],
       loading: true,
-      viewPopup: true
+      viewPopup: true,
+      player: null,
     };
+
+    
 
   }
 
@@ -52,6 +60,14 @@ class Dashboard extends Component {
       localStorage["alreadyVisited"] = true;
       this.setState({ viewPopup: true });
     }
+
+    // let cap = new CircleAudioPlayer({
+    //   audio: "http://www.html5tutorial.info/media/vincent.mp3",
+    //   size: 120,
+    //   borderWidth: 8
+    // });
+    
+    // cap.appendTo(document.getElementById("playerContainer"))
 
   }
 
@@ -95,7 +111,7 @@ class Dashboard extends Component {
 
       <Container fluid style={{ padding: 0 }}>
         <NavComponent />
-
+        <div id="playerContainer"></div>
         {!this.state.loading && this.state.viewPopup && (
           <FirstLoginModal user={this.state.user_data} updateUser={this.updateUser.bind(this)} />
         )}
@@ -106,7 +122,7 @@ class Dashboard extends Component {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col><Image src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1133104406718030&height=300&width=300&ext=1589611514&hash=AeRDghJAQ9QGHDHP" roundedCircle style={{ height: 100 }} /></Col>
+                    <Col><Image src={logo} roundedCircle style={{ height: 110 }} /></Col>
 
                     <Col>
                       {!this.state.loading && (
@@ -150,7 +166,21 @@ class Dashboard extends Component {
               <Category data={this.state.categories} />
 
               <Row style={{ padding: 10 }}>
-                <Col xs lg="5"></Col>
+                <Col xs lg="5">
+                  {!this.state.loading && (
+                    <ProgressionComponent data={this.state.user_data} />
+                  )}
+                  <div className="custom-loader">
+                    <ScaleLoader
+                      height={35}
+                      width={4}
+                      radius={2}
+                      margin={2}
+                      color={"#F5A623"}
+                      loading={this.state.loading}
+                    />
+                  </div>
+                </Col>
                 <Col xs lg="7">
                   <HomeLeaderBoard />
                 </Col>

@@ -165,6 +165,9 @@ html, body {
   text-align: center;
   margin: auto;
 }
+.CircularProgressbar-path {
+  stroke:#007bff !important;
+}
 
 
 .snip1584 {
