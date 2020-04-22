@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from 'react-dom'
 import { Image, ListGroup, Col, Row, Container, ProgressBar, Card, Modal, Button } from 'react-bootstrap';
 import { FaHeart, } from "react-icons/fa";
 import Slider from "react-slick";
@@ -17,12 +16,12 @@ import MenuComponent from "./MenuComponent";
 import FirstLoginModal from "./FirstLoginModal";
 import ProgressionComponent from "./ProgressionComponent";
 
-import CircleAudioPlayer from "../Player/CircleAudioPlayer";
 
 const override = css`
   display: block;
   margin: 0 auto;
 `;
+
 
 class Dashboard extends Component {
   constructor() {
@@ -34,10 +33,8 @@ class Dashboard extends Component {
       loading: true,
       viewPopup: true,
       player: null,
+      category_loading: true,
     };
-
-    
-
   }
 
 
@@ -60,15 +57,6 @@ class Dashboard extends Component {
       localStorage["alreadyVisited"] = true;
       this.setState({ viewPopup: true });
     }
-
-    // let cap = new CircleAudioPlayer({
-    //   audio: "http://www.html5tutorial.info/media/vincent.mp3",
-    //   size: 120,
-    //   borderWidth: 8
-    // });
-    
-    // cap.appendTo(document.getElementById("playerContainer"))
-
   }
 
   getCurrentUser(token) {
@@ -92,10 +80,13 @@ class Dashboard extends Component {
   }
 
   getCategories(token) {
+
     fetch(apiBaseUrl + '/spotify-categories?access_token=' + token)
       .then(res => res.json())
       .then((data) => {
         this.setState({ categories: data })
+        this.setState({ category_loading: false })
+
       })
       .catch(console.log)
   }
@@ -111,7 +102,6 @@ class Dashboard extends Component {
 
       <Container fluid style={{ padding: 0 }}>
         <NavComponent />
-        <div id="playerContainer"></div>
         {!this.state.loading && this.state.viewPopup && (
           <FirstLoginModal user={this.state.user_data} updateUser={this.updateUser.bind(this)} />
         )}
@@ -157,7 +147,9 @@ class Dashboard extends Component {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                <MenuComponent />
+                {!this.state.category_loading && !this.state.loading && (
+                  <MenuComponent data={this.state.categories} user_data={this.state.user_data}/>
+                )}
                 <ListGroup.Item><span style={{ color: '#bbb', fontSize: 12 }}>Musify your Brain</span></ListGroup.Item>
               </ListGroup>
             </Col>

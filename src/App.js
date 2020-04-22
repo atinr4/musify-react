@@ -15,21 +15,18 @@ class App extends Component {
 
   render() {
     return (
-      
       <Router>
-      <div>
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/about">
-            <About />
+          <Route exact path="/quiz/:ID">
+            <Quiz />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
           </Route>
         </Switch>
-      </div>
     </Router>
     );
   }
@@ -40,10 +37,10 @@ export default App;
 
 
 
-function About() {
+function Quiz() {
   return (
     <div>
-      <h2>About</h2>
+      <h2>Quiz</h2>
     </div>
   );
 }

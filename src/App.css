@@ -168,6 +168,19 @@ html, body {
 .CircularProgressbar-path {
   stroke:#007bff !important;
 }
+.list-unstyled .active{
+   color:#000 !important;
+   text-decoration: none !important;
+   background-color: #fff !important;
+}
+#playerContainer {
+  text-align: center;
+}
+.modal-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 
 
 .snip1584 {
