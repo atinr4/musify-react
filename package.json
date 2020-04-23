@@ -25,7 +25,8 @@
     "react-scripts": "2.1.8",
     "react-slick": "^0.25.2",
     "react-spinners": "^0.8.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "sweetalert2-react": "^0.8.3"
   },
   "scripts": {
     "start": "react-scripts start",

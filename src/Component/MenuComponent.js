@@ -19,7 +19,6 @@ class MenuComponent extends Component {
         };
         this.logOut = this.logOut.bind(this);
         this.startQuiz = this.startQuiz.bind(this);
-        console.log(this.state.user_data)
     }
 
     startQuiz(evt) {
