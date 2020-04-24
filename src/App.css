@@ -181,6 +181,12 @@ html, body {
   top: 5px;
   right: 5px;
 }
+#react-confirm-alert {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 10000 !important;
+}
 
 
 .snip1584 {

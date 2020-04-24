@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Modal, Button, Row, Col, Alert } from 'react-bootstrap';
+import { Modal, Button, Badge, Col, Alert } from 'react-bootstrap';
 import { apiBaseUrl } from "../config";
 import { ScaleLoader } from "react-spinners";
 import CircleAudioPlayer from "../Player/CircleAudioPlayer";
+import { FaHeart, FaConnectdevelop } from "react-icons/fa";
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 class QuizModal extends Component {
 
@@ -19,7 +21,10 @@ class QuizModal extends Component {
             questionIndex: 0,
             quizQuestion: [],
             showNext: false,
-            buttonstate: true
+            buttonstate: true,
+            showWrong: false,
+            showWrongNext: false,
+            finishQuiz: false,
         };
 
         this.handleToggle = this.handleToggle.bind(this);
@@ -49,10 +54,16 @@ class QuizModal extends Component {
     }
 
     handleToggle() {
+
+        if(this.cap) {
+             this.cap.pause();
+        }
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
-        this.props.handleClose()
+                    
+        this.props.handleClose(this.state.user_data)
+        
     }
 
     loadQuestion() {
@@ -60,7 +71,10 @@ class QuizModal extends Component {
         this.setState({
             showBody: true,
             showNext: false,
-            buttonstate: true
+            buttonstate: true,
+            showWrong: false,
+            showWrongNext: false,
+            finishQuiz:false,
         })
         if (this.state.questionIndex < this.state.playlist_tracks.length) {
             this.setState({
@@ -87,6 +101,10 @@ class QuizModal extends Component {
             this.questionData = this.state.playlist_tracks[index].options_title;
             this.quiz = this.state.playlist_tracks[index].options;
             this.playListId = this.state.playlist_tracks[index].id;
+        } else {
+            this.setState ({
+                finishQuiz: true
+            })
         }
     }
 
@@ -105,14 +123,30 @@ class QuizModal extends Component {
             method: 'POST',
             body: formData,
         };
+
+        this.answer = option;
         fetch(apiBaseUrl + '/submit-answer', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data);
                 if (data.result == "correct") {
                     this.setState({
-                        showNext: true
+                        showNext: true,
+                        user_data: data.user_profile
                     })
+                } else {
+                    if(data.user_profile.lives > 0) {
+                        this.setState({
+                            showWrongNext: true,
+                            user_data: data.user_profile
+                        })
+                    } else {
+                        this.setState({
+                            showWrong: true,
+                            user_data: data.user_profile
+                        })
+                    }
+                    
                 }
             }).catch(console.log)
 
@@ -135,7 +169,19 @@ class QuizModal extends Component {
                         </Alert>
                     )}
 
-
+                    <Col xs sm="12">
+                        <Badge variant="primary" style={{marginRight: 10}}><FaConnectdevelop/> {this.state.user_data.streak}</Badge> 
+                        <span className="no-margin" style={{ color: '#ca1111', letterSpacing: 2 }}>
+                            
+                            {Array.from(Array(this.state.user_data.lives), (e, i) => {
+                                return <FaHeart key={i} />
+                            })}
+                            
+                        </span>
+                        <Badge variant="warning" style={{marginRight: 10, float: "right"}}>{this.state.user_data.total_xp} XP</Badge> 
+                        <Badge variant="success" style={{marginRight: 10, float: "right"}}>Level {this.state.user_data.level}</Badge> 
+                        
+                    </Col>    
                     <Col xs sm="12">
                         {(this.props.user_data.lives > 0) && (
                             <Col xs sm="12" style={{ textAlign: "center", fontSize: 18 }}><p>{this.props.category_name}</p></Col>
@@ -155,16 +201,30 @@ class QuizModal extends Component {
                                 />
                             </div>
                         )}
+
                         <Col xs sm="12" id="playerContainer"></Col>
                         {this.state.showBody && (this.props.user_data.lives > 0) && (
                             <Col xs sm="12" style={{ textAlign: "center", fontSize: 18 }}><p>{this.questionData}</p></Col>
                         )}
 
-                        {this.state.showBody && (this.props.user_data.lives > 0) && this.quiz.map((item, key) =>
+                        {this.state.showNext && (
+                            <Alert variant="success" style={{textAlign: "center"}}>
+                                Your answer "{this.answer}" is correct. Lets go to the next one
+                            </Alert>
+                        )}
+
+                        {(this.state.showWrong || this.state.showWrongNext) && (
+                            <Alert variant="danger" style={{textAlign: "center"}}>
+                                Your answer "{this.answer}" is wrong. Can't continue more..
+                            </Alert>
+                        )}
+
+                        {!this.state.showWrong && !this.state.showWrongNext && !this.state.showNext && this.state.showBody && (this.props.user_data.lives > 0) && this.quiz.map((item, key) =>
                             <Col xs sm="12" key={key} style={{ textAlign: "center", fontSize: 18, padding: 5 }}>
                                 <Button variant="outline-primary form-control" style={{ overflow: "hidden" }} onClick={this.answerSelection.bind(this, item)} disabled={!this.state.buttonstate}>{item}</Button>
                             </Col>
                         )}
+
                     </Col>
 
                     <Button variant="secondary" className="modal-close-button" onClick={this.handleToggle}>
@@ -173,11 +233,23 @@ class QuizModal extends Component {
                     {this.state.showBody && this.state.showNext && (
                         <hr></hr>
                     )}
-                    {this.state.showBody && this.state.showNext && (
-                        <Button variant="secondary" onClick={this.loadQuestion} style={{ float: "right" }} >
-                            Next
-                        </Button>
-                    )}
+                    <Col xs sm="12">
+                        {this.state.showBody && (this.state.showNext || this.state.showWrongNext) && (
+                            <Button variant="secondary" onClick={this.loadQuestion} style={{ float: "right" }} >
+                                Next
+                            </Button>
+                        )}
+                        {this.state.showWrong && (
+                            <Alert variant="warning">
+                                No life left
+                            </Alert>
+                        )}
+                        {(this.state.showWrong || this.state.finishQuiz) && (
+                            <Button variant="secondary" onClick={this.handleToggle} style={{ float: "right" }} >
+                                Finish Quiz
+                            </Button>
+                        )}
+                    </Col>
                 </Modal.Body>
             </Modal>
         )

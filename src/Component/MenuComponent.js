@@ -3,7 +3,7 @@ import { FaList, FaUserCog, FaSignOutAlt } from "react-icons/fa";
 import { GiJoystick, GiDuality } from "react-icons/gi";
 import { Nav, ListGroup, Button, Dropdown, FormControl } from 'react-bootstrap';
 import { Redirect } from "react-router-dom";
-import QuizModal from "./QuizModal";
+
 
 class MenuComponent extends Component {
 
@@ -13,29 +13,15 @@ class MenuComponent extends Component {
             navigate: false,
             categories: this.props.data,
             user_data: this.props.user_data,
-            show_modal: false,
-            category:'',
-            category_name:''
+
         };
         this.logOut = this.logOut.bind(this);
         this.startQuiz = this.startQuiz.bind(this);
     }
 
     startQuiz(evt) {
-        
         let array = evt.split(",");
-
-        this.setState({
-            show_modal: true,
-            category: array[0],
-            category_name: array[1]
-        });
-    }
-
-    handleClose() {
-        this.setState({
-            show_modal: false
-        })
+        this.props.startQuiz(array);
     }
 
     logOut() {
@@ -60,7 +46,7 @@ class MenuComponent extends Component {
                             <Dropdown.Menu as={CustomMenu} >
 
                                 {this.state.categories.map((item, key) =>
-                                    <Dropdown.Item eventKey={[item.id,item.name]} key={item.id} >{item.name}</Dropdown.Item>
+                                    <Dropdown.Item eventKey={[item.id, item.name]} key={item.id} >{item.name}</Dropdown.Item>
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -71,9 +57,7 @@ class MenuComponent extends Component {
                         <Button onClick={this.logOut} ><FaSignOutAlt /> Logout</Button>
                     </Nav>
                 </ListGroup.Item>
-                {this.state.show_modal && (
-                    <QuizModal handleClose={this.handleClose.bind(this)} category={this.state.category} category_name={this.state.category_name} user_data={this.state.user_data}/>
-                )}
+
 
             </div>
         );

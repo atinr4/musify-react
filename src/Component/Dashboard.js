@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image, ListGroup, Col, Row, Container, ProgressBar, Card, Modal, Button } from 'react-bootstrap';
-import { FaHeart, } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import Slider from "react-slick";
 import hash from "../hash";
 import { apiBaseUrl } from "../config";
@@ -15,6 +15,8 @@ import NavComponent from "./NavComponent";
 import MenuComponent from "./MenuComponent";
 import FirstLoginModal from "./FirstLoginModal";
 import ProgressionComponent from "./ProgressionComponent";
+import QuizModal from "./QuizModal";
+import Swal from 'sweetalert2'
 
 
 const override = css`
@@ -34,6 +36,9 @@ class Dashboard extends Component {
       viewPopup: true,
       player: null,
       category_loading: true,
+      show_modal: false,
+      category: '',
+      category_name: ''
     };
   }
 
@@ -97,6 +102,71 @@ class Dashboard extends Component {
     })
   }
 
+  handleClose(user_data) {
+    this.setState({
+      loading: true,
+      show_modal: false,
+      user_data: user_data,
+    })
+
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      })
+    }, 100)
+  }
+
+  startQuiz(evt) {
+    let timerInterval;
+    Swal.fire({
+      title: '<h4>Are you want to play the Quiz?</h4>',
+      html: "<span style='font-size: 16px;'>Your selected quiz category is: " + evt[1] + "</span>",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Lets get started!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title: 'Be Ready!',
+          html: 'Quiz will start in <b></b>',
+          timer: 6000,
+          timerProgressBar: true,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            timerInterval = setInterval(() => {
+              const content = Swal.getContent()
+              if (content) {
+                const b = content.querySelector('b')
+                if (b) {
+                  b.textContent = Math.ceil(Swal.getTimerLeft() / 1000)
+                }
+              }
+            }, 1000)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            setTimeout(() => {
+              this.setState({
+                show_modal: true,
+                category: evt[0],
+                category_name: evt[1]
+              });
+            }, 500)
+          }
+        })
+      }
+    })
+
+
+
+  }
+
   render() {
     return (
 
@@ -148,7 +218,11 @@ class Dashboard extends Component {
                   </Row>
                 </ListGroup.Item>
                 {!this.state.category_loading && !this.state.loading && (
-                  <MenuComponent data={this.state.categories} user_data={this.state.user_data}/>
+                  <MenuComponent startQuiz={this.startQuiz.bind(this)} data={this.state.categories} user_data={this.state.user_data} />
+                )}
+
+                {this.state.show_modal && (
+                  <QuizModal handleClose={this.handleClose.bind(this)} category={this.state.category} category_name={this.state.category_name} user_data={this.state.user_data} />
                 )}
                 <ListGroup.Item><span style={{ color: '#bbb', fontSize: 12 }}>Musify your Brain</span></ListGroup.Item>
               </ListGroup>
@@ -174,7 +248,9 @@ class Dashboard extends Component {
                   </div>
                 </Col>
                 <Col xs lg="7">
-                  <HomeLeaderBoard />
+                  {!this.state.loading && (
+                    <HomeLeaderBoard />
+                  )}
                 </Col>
               </Row>
             </Col>
@@ -189,7 +265,16 @@ class Dashboard extends Component {
 
 export default Dashboard;
 
-class CategoryDetails extends React.Component {
+class CategoryDetails extends Component {
+  constructor(prop) {
+    super(prop)
+  }
+
+  startQuiz(id) {
+    console.log(id)
+    //this.props.startQuiz(id);
+  }
+
   render() {
     var title = this.props.data.name,
       id = this.props.data.id;
@@ -197,13 +282,24 @@ class CategoryDetails extends React.Component {
       <Card style={{ width: '18rem', height: 170 }} className="category-card">
         <Card.Body>
           <Card.Title>{title}</Card.Title>
-          <Card.Link href={id} className="category-button">Play Quiz</Card.Link>
+          <Card.Link onClick={this.startQuiz.bind(this, id)} className="category-button">Play Quiz</Card.Link>
         </Card.Body>
       </Card>
     )
   }
 }
-class Category extends React.Component {
+class Category extends Component {
+
+  constructor(prop) {
+    super(prop)
+    this.startQuiz = this.startQuiz.bind(this)
+  }
+
+  startQuiz(id) {
+    console.log(id);
+  }
+
+
   render() {
     var data = this.props.data;
     var newsTemplate;
@@ -216,7 +312,7 @@ class Category extends React.Component {
       newsTemplate = data.map(function (item, index) {
         return (
           <div key={index}>
-            <CategoryDetails data={item} />
+            <CategoryDetails data={item}/>
           </div>
         )
       })
