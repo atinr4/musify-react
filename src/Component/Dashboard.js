@@ -229,7 +229,7 @@ class Dashboard extends Component {
             </Col>
             <Col xs lg="6">
 
-              <Category data={this.state.categories} />
+              <Category data={this.state.categories} startQuiz={this.startQuiz.bind(this)}/>
 
               <Row style={{ padding: 10 }}>
                 <Col xs lg="5">
@@ -271,8 +271,7 @@ class CategoryDetails extends Component {
   }
 
   startQuiz(id) {
-    console.log(id)
-    //this.props.startQuiz(id);
+    this.props.startQuiz(id);
   }
 
   render() {
@@ -282,7 +281,7 @@ class CategoryDetails extends Component {
       <Card style={{ width: '18rem', height: 170 }} className="category-card">
         <Card.Body>
           <Card.Title>{title}</Card.Title>
-          <Card.Link onClick={this.startQuiz.bind(this, id)} className="category-button">Play Quiz</Card.Link>
+          <Card.Link onClick={this.startQuiz.bind(this, [id, title])} className="category-button">Play Quiz</Card.Link>
         </Card.Body>
       </Card>
     )
@@ -292,10 +291,10 @@ class Category extends Component {
 
   constructor(prop) {
     super(prop)
-    this.startQuiz = this.startQuiz.bind(this)
   }
 
   startQuiz(id) {
+    this.props.startQuiz(id);
     console.log(id);
   }
 
@@ -309,10 +308,10 @@ class Category extends Component {
       slidesToScroll: 1,
     }
     if (data.length > 0) {
-      newsTemplate = data.map(function (item, index) {
+      newsTemplate = data.map((item, index) =>{
         return (
           <div key={index}>
-            <CategoryDetails data={item}/>
+            <CategoryDetails data={item} startQuiz={this.startQuiz.bind(this)}/>
           </div>
         )
       })

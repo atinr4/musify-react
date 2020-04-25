@@ -49,7 +49,11 @@ class QuizModal extends Component {
                     }
 
                 })
-                .catch(console.log)
+                .catch( err => {
+                    err.text().then( errorMessage => {
+                        this.setState({ showError: true })
+                    })
+                })
         }
     }
 
@@ -95,15 +99,21 @@ class QuizModal extends Component {
                     borderWidth: 8
                 });
                 document.getElementById("playerContainer").innerHTML = "";
-                this.cap.appendTo(document.getElementById("playerContainer"))
+                this.cap.appendTo(document.getElementById("playerContainer"));
+                setTimeout(() => {
+                    this.cap.play();
+                }, 100)
             }
 
             this.questionData = this.state.playlist_tracks[index].options_title;
             this.quiz = this.state.playlist_tracks[index].options;
             this.playListId = this.state.playlist_tracks[index].id;
         } else {
+            document.getElementById("playerContainer").innerHTML = "";
             this.setState ({
-                finishQuiz: true
+                finishQuiz: true,
+                showBody: false,
+                showNext: false,
             })
         }
     }
@@ -156,19 +166,7 @@ class QuizModal extends Component {
         return (
 
             <Modal onHide={this.handleToggle} show={this.state.isModalOpen} backdrop="static" className="modal-dialog modal-lg">
-                <Modal.Body style={{ width: "100%" }}>
-                    {this.state.showError && (
-                        <Alert variant="danger">
-                            Unable to create the Quiz. Serve Busy
-                        </Alert>
-                    )}
-
-                    {(this.props.user_data.lives === 0) && (
-                        <Alert variant="warning">
-                            No life left
-                        </Alert>
-                    )}
-
+                <Modal.Body style={{ width: "100%" }}>                    
                     <Col xs sm="12">
                         <Badge variant="primary" style={{marginRight: 10}}><FaConnectdevelop/> {this.state.user_data.streak}</Badge> 
                         <span className="no-margin" style={{ color: '#ca1111', letterSpacing: 2 }}>
@@ -186,10 +184,21 @@ class QuizModal extends Component {
                         {(this.props.user_data.lives > 0) && (
                             <Col xs sm="12" style={{ textAlign: "center", fontSize: 18 }}><p>{this.props.category_name}</p></Col>
                         )}
+                        {this.state.showError && (
+                            <Alert variant="danger">
+                                Unable to create the Quiz. Serve Busy
+                            </Alert>
+                        )}
+                        {(this.props.user_data.lives === 0) && (
+                            <Alert variant="warning">
+                                No life left
+                            </Alert>
+                        )}
+
                         {(this.props.user_data.lives > 0) && (
                             <hr></hr>
                         )}
-                        {!this.state.showBody && (this.props.user_data.lives > 0) && (
+                        {this.state.finishQuiz || (!this.state.showBody && (this.props.user_data.lives > 0)) && (
                             <div className="custom-loader">
                                 <ScaleLoader
                                     height={35}
@@ -216,6 +225,12 @@ class QuizModal extends Component {
                         {(this.state.showWrong || this.state.showWrongNext) && (
                             <Alert variant="danger" style={{textAlign: "center"}}>
                                 Your answer "{this.answer}" is wrong. Can't continue more..
+                            </Alert>
+                        )}
+
+                        { this.state.finishQuiz && (
+                            <Alert variant="warning" style={{textAlign: "center"}}>
+                                Your quiz hasbeen ended
                             </Alert>
                         )}
 
