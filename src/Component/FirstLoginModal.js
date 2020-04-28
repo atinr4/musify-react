@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Modal, Button, Form, Toast } from 'react-bootstrap';
 import { apiBaseUrl } from "../config";
+import ImagesUploader from 'react-images-uploader';
+import 'react-images-uploader/styles.css';
+import 'react-images-uploader/font.css';
 
 
 class FirstLoginModal extends Component {
@@ -36,6 +39,7 @@ class FirstLoginModal extends Component {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
+        this.props.toggleModal()
     }
 
     handleChange(event) {
@@ -59,6 +63,7 @@ class FirstLoginModal extends Component {
                     isModalOpen: !this.state.isModalOpen
                 });
                 this.props.updateUser(data);
+                this.props.toggleModal()
             }).catch(console.log)
 
         event.preventDefault();
@@ -68,12 +73,22 @@ class FirstLoginModal extends Component {
         return (
 
             <Modal onHide={this.handleToggle} show={this.state.isModalOpen} backdrop="static">
-                
+
                 <Modal.Header >
                     <Modal.Title>Is your details are okay?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
+                        <ImagesUploader
+                            url={apiBaseUrl + '/upload'}
+                            optimisticPreviews
+                            multiple={false}
+                            onLoadEnd={(err) => {
+                                if (err) {
+                                    console.error(err);
+                                }
+                            }}
+                        />
                         <Form.Group controlId="formBasicEmail" >
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter Name" value={this.state.name} onChange={this.handleChange} />

@@ -29,6 +29,11 @@ class MenuComponent extends Component {
         this.setState({ navigate: true });
     };
 
+    openProfile(){
+        console.log('Here');
+        this.props.openProfile()
+    }
+
     render() {
 
         if (this.state.navigate) {
@@ -52,7 +57,7 @@ class MenuComponent extends Component {
                         </Dropdown>
                         <Nav.Link eventKey="link-1"><GiDuality /> Dual Play</Nav.Link>
                         <Nav.Link eventKey="link-2"><FaList /> Leaderboard</Nav.Link>
-                        <Nav.Link eventKey="link-3"><FaUserCog /> Pofile</Nav.Link>
+                        <Nav.Link eventKey="link-3" onClick={this.openProfile.bind(this)}><FaUserCog /> Pofile</Nav.Link>
 
                         <Button onClick={this.logOut} ><FaSignOutAlt /> Logout</Button>
                     </Nav>

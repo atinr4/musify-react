@@ -165,9 +165,14 @@ class Dashboard extends Component {
         })
       }
     })
+  }
 
+  openProfile() {
+    this.setState({ viewPopup: true });
+  }
 
-
+  toggleModal() {
+    this.setState({ viewPopup: false });
   }
 
   render() {
@@ -179,7 +184,7 @@ class Dashboard extends Component {
       <Container fluid style={{ padding: 0 }}>
         <NavComponent />
         {!this.state.loading && this.state.viewPopup && (
-          <FirstLoginModal user={this.state.user_data} updateUser={this.updateUser.bind(this)} />
+          <FirstLoginModal toggleModal={this.toggleModal.bind(this)} user={this.state.user_data} updateUser={this.updateUser.bind(this)} />
         )}
 
         <Container fluid>
@@ -224,7 +229,7 @@ class Dashboard extends Component {
                   </Row>
                 </ListGroup.Item>
                 {!this.state.category_loading && !this.state.loading && (
-                  <MenuComponent startQuiz={this.startQuiz.bind(this)} data={this.state.categories} user_data={this.state.user_data} />
+                  <MenuComponent  openProfile={this.openProfile.bind(this)} startQuiz={this.startQuiz.bind(this)} data={this.state.categories} user_data={this.state.user_data} />
                 )}
 
                 {this.state.show_modal && (
