@@ -49,14 +49,83 @@ html, body {
 
 .spotify-btn {
   background-color: #1dd65f;
-  border-radius: 2vmin;
+  border-radius: 6vmin;
   color: #fff;
   cursor: pointer;
-  font-size: 1.5vmin;
+  font-size: 16px;
   padding: 0.7em 1.5em;
   font-weight: 600;
   transition: all 0.25s ease;
   text-decoration: none !important;
+}
+
+.spotify-btn span {
+  padding-right: 10px;
+  position: relative;
+  top: 0px;
+}
+
+.navbar {
+  background-color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+  .spotify-btn {
+    background-color: #1dd65f;
+    border-radius: 6vmin;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.7em 1.5em;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    text-decoration: none !important;
+    position: absolute;
+    bottom: 25vmin;
+    width: 65%;
+  }
+
+  .spotify-btn span {
+    padding-right: 10px;
+    position: absolute;
+    left: 11px;
+    font-size: 26px;
+    top: 0px;
+  }
+
+  .navbar {
+    background-color: #fff;
+    -webkit-box-shadow: 0px -1px 21px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -1px 21px -8px rgba(0,0,0,0.75);
+    box-shadow: 0px -1px 21px -8px rgba(0,0,0,0.75);
+  }
+
+  .category-card{
+    width: 100% !important;
+  }
+
+  .category-card .category-button {
+    width: 69% !important;
+  }
+
+  .card {
+    border: none;
+    -webkit-box-shadow: inset 0px 0px 9px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px 0px 9px -6px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 0px 9px -6px rgba(0,0,0,0.75);
+  }
+
+  .category-button {
+    color: #fff !important;
+    background-color: #f99c1c;
+    border-radius: 2em;
+    font-size: 15px !important;
+    padding: 3px !important;
+  }
+
+  .card-title {
+    font-size: 16px !important;
+  }
 }
 
 .spotify-btn:hover {

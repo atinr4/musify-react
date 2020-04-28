@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { authEndpoint, clientId, redirectUri, scopes, apiBaseUrl } from "../config";
-import hash from "../hash";
+import { FaSpotify } from "react-icons/fa";
 import logo from "../logo.png";
 
 import {
@@ -32,6 +32,7 @@ class Home extends Component {
                 "%20"
               )}&response_type=token&show_dialog=true`}
             >
+              <span><FaSpotify/></span>
               Login with Spotify
               </a>
           </header>

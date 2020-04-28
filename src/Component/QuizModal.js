@@ -50,9 +50,9 @@ class QuizModal extends Component {
 
                 })
                 .catch( err => {
-                    err.text().then( errorMessage => {
-                        this.setState({ showError: true })
-                    })
+                   
+                    this.setState({ showError: true })
+                
                 })
         }
     }

@@ -17,6 +17,7 @@ import FirstLoginModal from "./FirstLoginModal";
 import ProgressionComponent from "./ProgressionComponent";
 import QuizModal from "./QuizModal";
 import Swal from 'sweetalert2'
+import { Redirect } from "react-router-dom";
 
 
 const override = css`
@@ -29,6 +30,7 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
+      navigate: false,
       user_data: [],
       progression: 10,
       categories: [],
@@ -78,6 +80,7 @@ class Dashboard extends Component {
         } else {
           localStorage.removeItem('_token')
           localStorage.setItem('_token', undefined);
+          this.setState({ navigate: true });
         }
 
       })
@@ -168,6 +171,9 @@ class Dashboard extends Component {
   }
 
   render() {
+    if (this.state.navigate) {
+      return <Redirect to="/" push={true} />
+    }
     return (
 
       <Container fluid style={{ padding: 0 }}>
@@ -178,13 +184,13 @@ class Dashboard extends Component {
 
         <Container fluid>
           <Row className="justify-content-md-center">
-            <Col xs lg="2">
+            <Col lg="2">
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col><Image src={logo} roundedCircle style={{ height: 110 }} /></Col>
+                    <Col xs="4" md="6"><Image src={logo} roundedCircle style={{ height: 110 }} /></Col>
 
-                    <Col>
+                    <Col xs="8" md="6">
                       {!this.state.loading && (
                         <p className="no-margin">{this.state.user_data.name}</p>
                       )}
@@ -227,12 +233,12 @@ class Dashboard extends Component {
                 <ListGroup.Item><span style={{ color: '#bbb', fontSize: 12 }}>Musify your Brain</span></ListGroup.Item>
               </ListGroup>
             </Col>
-            <Col xs lg="6">
+            <Col lg="6">
 
-              <Category data={this.state.categories} startQuiz={this.startQuiz.bind(this)}/>
+              <Category data={this.state.categories} startQuiz={this.startQuiz.bind(this)} />
 
               <Row style={{ padding: 10 }}>
-                <Col xs lg="5">
+                <Col lg="5">
                   {!this.state.loading && (
                     <ProgressionComponent data={this.state.user_data} />
                   )}
@@ -247,7 +253,7 @@ class Dashboard extends Component {
                     />
                   </div>
                 </Col>
-                <Col xs lg="7">
+                <Col lg="7">
                   {!this.state.loading && (
                     <HomeLeaderBoard />
                   )}
@@ -308,10 +314,10 @@ class Category extends Component {
       slidesToScroll: 1,
     }
     if (data.length > 0) {
-      newsTemplate = data.map((item, index) =>{
+      newsTemplate = data.map((item, index) => {
         return (
           <div key={index}>
-            <CategoryDetails data={item} startQuiz={this.startQuiz.bind(this)}/>
+            <CategoryDetails data={item} startQuiz={this.startQuiz.bind(this)} />
           </div>
         )
       })

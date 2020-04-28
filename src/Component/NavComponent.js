@@ -5,9 +5,8 @@ import { Navbar } from 'react-bootstrap';
 class NavComponent extends Component {
     render() {
         return (
-            <Navbar expand="lg">
+            <Navbar expand="lg"  sticky="top">
                 <Navbar.Brand href="#"><img src={logo} style={{ height: 80 }} /> <span>Musify</span></Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
             </Navbar>
         )
     };
