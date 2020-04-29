@@ -33,6 +33,25 @@ cd musify-react
 
 Change `src/congig_example.js` to `src/config.js` and paste your Spotify Clioent ID from step 1 in the `clientId` feild.
 
+And add this
+
+export const authEndpoint = "https://accounts.spotify.com/authorize";
+
+// Replace with your app's client ID, redirect URI and desired scopes
+export const clientId = "<client_id>";
+export const redirectUri = "http://localhost:3000/dashboard";
+export const scopes = [
+    "user-top-read",
+    "user-read-currently-playing",
+    "user-read-playback-state",
+    "user-read-email",
+    "playlist-read-private",
+    "user-library-read"
+];
+
+export const apiBaseUrl = "<Backend API URL>";
+### Backend Project Link: https://github.com/atinr4/music-app
+
 ### 4. Install dependencies & run locally
 
 ```sh
