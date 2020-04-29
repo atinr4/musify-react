@@ -40,7 +40,8 @@ class Dashboard extends Component {
       category_loading: true,
       show_modal: false,
       category: '',
-      category_name: ''
+      category_name: '',
+      profile_image: logo
     };
   }
 
@@ -73,8 +74,14 @@ class Dashboard extends Component {
         if (data.status != 401) {
           this.setState({ user_data: data })
 
+          if (this.state.user_data.profile_image) {
+            this.setState({ profile_image: this.state.user_data.profile_image })
+          }
+
           let level = Math.ceil(this.state.user_data.total_xp / 1000)
+
           let progess = (this.state.user_data.total_xp * 100) / (level * 1000);
+
           this.setState({ progression: progess })
           this.setState({ loading: false })
         } else {
@@ -101,7 +108,8 @@ class Dashboard extends Component {
 
   updateUser(data) {
     this.setState({
-      user_data: data.user_data
+      user_data: data.user_data,
+      profile_image: data.user_data.profile_image
     })
   }
 
@@ -193,7 +201,7 @@ class Dashboard extends Component {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col xs="4" md="6"><Image src={logo} roundedCircle style={{ height: 110 }} /></Col>
+                    <Col xs="4" md="6"><Image src={this.state.profile_image} roundedCircle style={{ height: 110 }} /></Col>
 
                     <Col xs="8" md="6">
                       {!this.state.loading && (
@@ -229,7 +237,7 @@ class Dashboard extends Component {
                   </Row>
                 </ListGroup.Item>
                 {!this.state.category_loading && !this.state.loading && (
-                  <MenuComponent  openProfile={this.openProfile.bind(this)} startQuiz={this.startQuiz.bind(this)} data={this.state.categories} user_data={this.state.user_data} />
+                  <MenuComponent openProfile={this.openProfile.bind(this)} startQuiz={this.startQuiz.bind(this)} data={this.state.categories} user_data={this.state.user_data} />
                 )}
 
                 {this.state.show_modal && (

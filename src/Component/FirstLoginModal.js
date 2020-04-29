@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Modal, Button, Form, Toast } from 'react-bootstrap';
+import { Modal, Button, Form, Image, Col, Row, Alert } from 'react-bootstrap';
 import { apiBaseUrl } from "../config";
-import ImagesUploader from 'react-images-uploader';
-import 'react-images-uploader/styles.css';
-import 'react-images-uploader/font.css';
-
+import ImageUploader from 'react-images-upload';
+import logo from "../logo.png";
+import { BounceLoader } from "react-spinners";
 
 class FirstLoginModal extends Component {
     constructor(prop) {
@@ -13,20 +12,30 @@ class FirstLoginModal extends Component {
             id: this.props.user.id,
             name: '',
             email: '',
-            isModalOpen: true
+            isModalOpen: true,
+            pictures: [],
+            profile_image: logo,
+            imageUploadSuccess: false,
+            uploadProcess: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+
+        this.onDrop = this.onDrop.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             name: this.props.user.name,
-            email: this.props.user.email
+            email: this.props.user.email,
         })
 
-
+        if (this.props.user.profile_image) {
+            this.setState({
+                profile_image: this.props.user.profile_image
+            })
+        }
     }
 
     getInitialState() {
@@ -69,6 +78,32 @@ class FirstLoginModal extends Component {
         event.preventDefault();
     }
 
+    onDrop(picture) {
+        const formData = new FormData();
+        formData.append('files', picture[0]);
+        formData.append('user_id', this.state.id);
+
+        const requestOptions = {
+            method: 'POST',
+            body: formData
+        };
+
+        this.setState({
+            uploadProcess: true,
+        })
+
+        fetch(apiBaseUrl + '/upload', requestOptions)
+            .then(response => response.json())
+            .then((data) => {
+                this.setState({
+                    profile_image: data.user_data.profile_image,
+                    imageUploadSuccess: true,
+                    uploadProcess: false
+                })
+                this.props.updateUser(data);
+            }).catch(console.log)
+    }
+
     render() {
         return (
 
@@ -78,17 +113,37 @@ class FirstLoginModal extends Component {
                     <Modal.Title>Is your details are okay?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={this.handleSubmit}>
-                        <ImagesUploader
-                            url={apiBaseUrl + '/upload'}
-                            optimisticPreviews
-                            multiple={false}
-                            onLoadEnd={(err) => {
-                                if (err) {
-                                    console.error(err);
-                                }
-                            }}
+                    {this.state.imageUploadSuccess && (
+                        <Alert variant={'success'}>
+                            Profile Image Successfully Updated
+                        </Alert>
+                    )}
+                    <div className="custom-loader" style={{paddingLeft: '42%'}}>
+                        <BounceLoader
+                            size={60}
+                            color={"#F5A623"}
+                            loading={this.state.uploadProcess}
                         />
+                    </div>
+                    {!this.state.uploadProcess && (
+                        <Row>
+                            <Col xs="4" lg="3" style={{ paddingTop: 38 }}>
+                                <Image src={this.state.profile_image} roundedCircle style={{ height: 110 }} />
+                            </Col>
+                            <Col xs="8" lg="9">
+                                <ImageUploader
+                                    withIcon={true}
+                                    buttonText='Choose images'
+                                    onChange={this.onDrop}
+                                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                    maxFileSize={5242880}
+                                />
+                            </Col>
+                        </Row>
+                    )}
+
+                    <Form onSubmit={this.handleSubmit}>
+
                         <Form.Group controlId="formBasicEmail" >
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter Name" value={this.state.name} onChange={this.handleChange} />
