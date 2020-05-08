@@ -78,9 +78,8 @@ class Dashboard extends Component {
             this.setState({ profile_image: this.state.user_data.profile_image })
           }
 
-          let level = Math.ceil(this.state.user_data.total_xp / 1000)
-
-          let progess = (this.state.user_data.total_xp * 100) / (level * 1000);
+          let level = this.state.user_data.level;
+          let progess = ((this.state.user_data.total_xp - ((level * 1000) - 1000)) * 100) / ((level * 1000) - this.state.user_data.total_xp);
 
           this.setState({ progression: progess })
           this.setState({ loading: false })
